@@ -3,11 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 exports.default = element;
 
 var _findElementStrategy = require('../helpers/findElementStrategy');
@@ -18,28 +13,11 @@ var _hasElementResultHelper = require('../helpers/hasElementResultHelper');
 
 var _hasElementResultHelper2 = _interopRequireDefault(_hasElementResultHelper);
 
-var _constants = require('../helpers/constants');
-
 var _q = require('q');
 
 var _q2 = _interopRequireDefault(_q);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Search for an element on the page, starting from the document root.
- * The located element will be returned as a WebElement JSON object.
- * The table below lists the locator strategies that each server should support.
- * Each locator must return the first matching element located in the DOM.
- *
- * @see  https://w3c.github.io/webdriver/webdriver-spec.html#find-element
- *
- * @param {String} selector selector to query the element
- * @return {Object} A WebElement JSON object for the located element.
- * @throws {NoSuchElement} if no element is found from the given selector
- * @type protocol
- *
- */
 
 function element(selector) {
     var _this = this;
@@ -74,11 +52,12 @@ function element(selector) {
          * `element-6066-11e4-a52e-4f735466cecf`. Let's make sure both identifier
          * are supported.
          */
-        var elemValue = result.value.ELEMENT || result.value[_constants.W3C_ELEMENT_ID];
+        var elemValue = result.value.ELEMENT || result.value['element-6066-11e4-a52e-4f735466cecf'];
         if (elemValue) {
-            result.value = (0, _defineProperty3.default)({
-                ELEMENT: elemValue
-            }, _constants.W3C_ELEMENT_ID, elemValue);
+            result.value = {
+                ELEMENT: elemValue,
+                'element-6066-11e4-a52e-4f735466cecf': elemValue
+            };
         }
 
         return result;
@@ -99,5 +78,19 @@ function element(selector) {
         delete result.orgStatusMessage;
         return result;
     });
-}
+} /**
+   * Search for an element on the page, starting from the document root.
+   * The located element will be returned as a WebElement JSON object.
+   * The table below lists the locator strategies that each server should support.
+   * Each locator must return the first matching element located in the DOM.
+   *
+   * @see  https://w3c.github.io/webdriver/webdriver-spec.html#find-element
+   *
+   * @param {String} selector selector to query the element
+   * @return {String} A WebElement JSON object for the located element.
+   *
+   * @type protocol
+   *
+   */
+
 module.exports = exports['default'];

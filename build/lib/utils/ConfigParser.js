@@ -49,7 +49,6 @@ var DEFAULT_CONFIGS = {
     exclude: [],
     logLevel: 'silent',
     coloredLogs: true,
-    deprecationWarnings: true,
     baseUrl: null,
     bail: 0,
     waitforInterval: 500,
@@ -198,19 +197,7 @@ var ConfigParser = function () {
             this._config = (0, _deepmerge2.default)(this._config, object);
 
             /**
-             * overwrite config specs that got piped into the wdio command
-             */
-            if (object.specs && object.specs.length > 0) {
-                this._config.specs = object.specs;
-            }
-
-            /**
-             * merge capabilities
-             */
-            this._capabilities = (0, _deepmerge2.default)(this._capabilities, this._config.capabilities || {});
-
-            /**
-             * run single spec file only, regardless of multiple-spec specification
+             * run single spec file only
              */
             if (typeof object.spec === 'string') {
                 var specs = [];

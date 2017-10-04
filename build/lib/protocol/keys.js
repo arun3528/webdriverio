@@ -6,9 +6,9 @@ var _getIterator3 = _interopRequireDefault(_getIterator2);
 
 var _constants = require('../helpers/constants');
 
-var _deprecationWarning = require('../helpers/deprecationWarning');
+var _depcrecationWarning = require('../helpers/depcrecationWarning');
 
-var _deprecationWarning2 = _interopRequireDefault(_deprecationWarning);
+var _depcrecationWarning2 = _interopRequireDefault(_depcrecationWarning);
 
 var _ErrorHandler = require('../utils/ErrorHandler');
 
@@ -51,7 +51,7 @@ module.exports = function keys(value) {
         throw new _ErrorHandler.ProtocolError('number or type of arguments don\'t agree with keys protocol command');
     }
 
-    (0, _deprecationWarning2.default)('keys', this.options);
+    (0, _depcrecationWarning2.default)('keys');
     return this.requestHandler.create('/session/:sessionId/keys', {
         'value': key
     });
@@ -73,9 +73,6 @@ module.exports = function keys(value) {
  * care of translating them into unicode characters. You’ll find all supported characters
  * [here](https://w3c.github.io/webdriver/webdriver-spec.html#keyboard-actions).
  * To do that, the value has to correspond to a key from the table.
- *
- * This command is deprecated and will be removed soon. Make sure you don't use it in your
- * automation/test scripts anymore to avoid errors.
  *
  * @param {String|String[]} value  The sequence of keys to type. An array must be provided. The server should flatten the array items to a single string to be typed.
  *

@@ -45,7 +45,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
         // simple touch action using x y variables
         browser.touchAction({
-            action: 'tap', x: 300, y:200
+            actions: 'tap', x: 300, y:200
         })
 
         // simple touch action using selector and x y variables

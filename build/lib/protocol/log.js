@@ -28,11 +28,7 @@ var logTypes = void 0; /**
                         */
 
 function getLogTypes() {
-    if (logTypes) {
-        return _promise2.default.resolve(logTypes);
-    }
-
-    return this.logTypes().then(function (types) {
+    return logTypes ? _promise2.default.resolve(logTypes) : this.logTypes().then(function (types) {
         logTypes = types;
         return logTypes;
     });

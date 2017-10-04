@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", {
         browser.url('http://webdriver.io')
 
         var tabId = browser.getCurrentTabId()
-        console.log(tabId)
+        console.log(tabid)
         // outputs something like the following:
         // "CDwindow-C43FB686-949D-4232-828B-583398FBD0C0"
     })

@@ -28,10 +28,6 @@ var _url = require('url');
 
 var _url2 = _interopRequireDefault(_url);
 
-var _http = require('http');
-
-var _http2 = _interopRequireDefault(_http);
-
 var _request2 = require('request');
 
 var _request3 = _interopRequireDefault(_request2);
@@ -50,12 +46,9 @@ var _package2 = _interopRequireDefault(_package);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var agent = new _http2.default.Agent({ keepAlive: true });
-
 /**
  * RequestHandler
  */
-
 var RequestHandler = function () {
     function RequestHandler(options, eventHandler, logger) {
         (0, _classCallCheck3.default)(this, RequestHandler);
@@ -100,8 +93,6 @@ var RequestHandler = function () {
     (0, _createClass3.default)(RequestHandler, [{
         key: 'createOptions',
         value: function createOptions(requestOptions, data) {
-            var _this = this;
-
             var newOptions = {};
 
             /**
@@ -137,20 +128,11 @@ var RequestHandler = function () {
             newOptions.json = true;
             newOptions.followAllRedirects = true;
 
-            newOptions.agent = agent;
             newOptions.headers = {
                 'Connection': 'keep-alive',
                 'Accept': 'application/json',
                 'User-Agent': 'webdriverio/webdriverio/' + _package2.default.version
-
-                // Check for custom authorization header
-            };if (typeof this.defaultOptions.headers === 'object') {
-                (0, _keys2.default)(this.defaultOptions.headers).forEach(function (header) {
-                    if (typeof _this.defaultOptions.headers[header] === 'string') {
-                        newOptions.headers[header] = _this.defaultOptions.headers[header];
-                    }
-                });
-            }
+            };
 
             if ((0, _keys2.default)(data).length > 0) {
                 newOptions.json = data;
@@ -179,7 +161,7 @@ var RequestHandler = function () {
     }, {
         key: 'create',
         value: function create(requestOptions, data) {
-            var _this2 = this;
+            var _this = this;
 
             data = data || {};
 
@@ -207,16 +189,16 @@ var RequestHandler = function () {
                 /**
                  * if no session id was set before we've called the init command
                  */
-                if (_this2.sessionID === null && requestOptions.requiresSession !== false) {
-                    _this2.sessionID = body.sessionId || body.value.sessionId;
+                if (_this.sessionID === null && requestOptions.requiresSession !== false) {
+                    _this.sessionID = body.sessionId || body.value.sessionId;
 
-                    _this2.eventHandler.emit('init', {
-                        sessionID: _this2.sessionID,
+                    _this.eventHandler.emit('init', {
+                        sessionID: _this.sessionID,
                         options: body.value,
                         desiredCapabilities: data.desiredCapabilities
                     });
 
-                    _this2.eventHandler.emit('info', 'SET SESSION ID ' + _this2.sessionID);
+                    _this.eventHandler.emit('info', 'SET SESSION ID ' + _this.sessionID);
                 }
 
                 if (body === undefined) {
@@ -226,7 +208,7 @@ var RequestHandler = function () {
                     };
                 }
 
-                _this2.eventHandler.emit('result', {
+                _this.eventHandler.emit('result', {
                     requestData: data,
                     requestOptions: fullRequestOptions,
                     response: response,
@@ -235,7 +217,7 @@ var RequestHandler = function () {
 
                 return body;
             }, function (err) {
-                _this2.eventHandler.emit('result', {
+                _this.eventHandler.emit('result', {
                     requestData: data,
                     requestOptions: fullRequestOptions,
                     body: err
@@ -246,7 +228,7 @@ var RequestHandler = function () {
     }, {
         key: 'request',
         value: function request(fullRequestOptions, totalRetryCount) {
-            var _this3 = this;
+            var _this2 = this;
 
             var retryCount = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
@@ -301,28 +283,24 @@ var RequestHandler = function () {
                     }
 
                     if (retryCount >= totalRetryCount) {
-                        var message = 'Couldn\'t connect to selenium server';
-                        var status = -1;
-                        var type = 'ECONNREFUSED';
+                        var _error = null;
 
                         if (err && err.message.indexOf('Nock') > -1) {
                             // for better unit test error output
-                            return reject(err);
+                            _error = err;
+                        } else {
+                            _error = new _ErrorHandler.RuntimeError({
+                                status: -1,
+                                type: err.code || 'ECONNREFUSED',
+                                message: 'Couldn\'t connect to selenium server',
+                                orgStatusMessage: err.message
+                            });
                         }
 
-                        if (err) {
-                            return reject(new _ErrorHandler.RuntimeError({
-                                status: status,
-                                type: err.code || type,
-                                orgStatusMessage: err.message,
-                                message: message
-                            }));
-                        }
-
-                        return reject(new _ErrorHandler.RuntimeError({ status: status, type: type, message: message }));
+                        return reject(_error);
                     }
 
-                    _this3.request(fullRequestOptions, totalRetryCount, ++retryCount).then(resolve).catch(reject);
+                    _this2.request(fullRequestOptions, totalRetryCount, ++retryCount).then(resolve).catch(reject);
                 });
             });
         }

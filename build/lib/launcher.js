@@ -130,8 +130,7 @@ var Launcher = function () {
                         reporters[Reporter.reporterName] = Reporter;
                     } else if (typeof reporterName === 'string') {
                         try {
-                            var pkgName = reporterName.startsWith('@') ? reporterName : 'wdio-' + reporterName + '-reporter';
-                            Reporter = require(pkgName);
+                            Reporter = require('wdio-' + reporterName + '-reporter');
                         } catch (e) {
                             throw new Error('reporter "wdio-' + reporterName + '-reporter" is not installed. Error: ' + e.stack);
                         }
@@ -740,15 +739,14 @@ var Launcher = function () {
                     }
 
                     try {
-                        var pkgName = serviceName.startsWith('@') ? serviceName + '/launcher' : 'wdio-' + serviceName + '-service/launcher';
-                        service = require(pkgName);
+                        service = require('wdio-' + serviceName + '-service/launcher');
                     } catch (e) {
                         if (!e.message.match('Cannot find module \'wdio-' + serviceName + '-service/launcher\'')) {
                             throw new Error('Couldn\'t initialise launcher from service "' + serviceName + '".\n' + e.stack);
                         }
                     }
 
-                    if (service && (typeof service.onPrepare === 'function' || typeof service.onComplete === 'function')) {
+                    if (service && typeof service.onPrepare === 'function') {
                         launchServices.push(service);
                     }
                 }

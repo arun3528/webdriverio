@@ -116,7 +116,6 @@ var WebdriverIO = function WebdriverIO(args, modifier) {
         waitforTimeout: 1000,
         waitforInterval: 500,
         coloredLogs: true,
-        deprecationWarnings: true,
         logLevel: 'silent',
         baseUrl: null,
         onError: [],

@@ -3,11 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 exports.default = elementIdElements;
 
 var _ErrorHandler = require('../utils/ErrorHandler');
@@ -16,9 +11,23 @@ var _findElementStrategy = require('../helpers/findElementStrategy');
 
 var _findElementStrategy2 = _interopRequireDefault(_findElementStrategy);
 
-var _constants = require('../helpers/constants');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ *
+ * Search for multiple elements on the page, starting from an element. The located
+ * elements will be returned as a WebElement JSON objects. The table below lists the
+ * locator strategies that each server should support. Elements should be returned in
+ * the order located in the DOM.
+ *
+ * @param {String} ID ID of a WebElement JSON object to route the command to
+ * @param {String} selector selector to query the elements
+ * @return {Object[]} A list of WebElement JSON objects for the located elements.
+ *
+ * @see  https://w3c.github.io/webdriver/webdriver-spec.html#find-elements-from-element
+ * @type protocol
+ *
+ */
 
 function elementIdElements(id, selector) {
     if (typeof id !== 'string' && typeof id !== 'number') {
@@ -38,28 +47,14 @@ function elementIdElements(id, selector) {
          * are supported.
          */
         result.value = result.value.map(function (elem) {
-            var elemValue = elem.ELEMENT || elem[_constants.W3C_ELEMENT_ID];
-            return (0, _defineProperty3.default)({
-                ELEMENT: elemValue
-            }, _constants.W3C_ELEMENT_ID, elemValue);
+            var elemValue = elem.ELEMENT || elem['element-6066-11e4-a52e-4f735466cecf'];
+            return {
+                ELEMENT: elemValue,
+                'element-6066-11e4-a52e-4f735466cecf': elemValue
+            };
         });
 
         return result;
     });
-} /**
-   *
-   * Search for multiple elements on the page, starting from an element. The located
-   * elements will be returned as a WebElement JSON objects. The table below lists the
-   * locator strategies that each server should support. Elements should be returned in
-   * the order located in the DOM.
-   *
-   * @param {String} ID ID of a WebElement JSON object to route the command to
-   * @param {String} selector selector to query the elements
-   * @return {Object[]} A list of WebElement JSON objects for the located elements.
-   *
-   * @see  https://w3c.github.io/webdriver/webdriver-spec.html#find-elements-from-element
-   * @type protocol
-   *
-   */
-
+}
 module.exports = exports['default'];

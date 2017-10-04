@@ -95,7 +95,7 @@ function session() {
       });
    * </example>
    *
-   * @param {String=} doWhat     session operation (`get` (default), `delete`)
+   * @param {String=} doWhat     session operation (`get` (default)|`delete`)
    * @param {String}  sessionId  session id to operate on
    *
    * @see  https://w3c.github.io/webdriver/webdriver-spec.html#dfn-delete-session

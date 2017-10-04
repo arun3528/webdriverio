@@ -51,8 +51,7 @@ var ErrorHandler = function (_Error) {
             if (msg === 7 && details) {
                 _this.message = _this.message.slice(0, -1) + ' ("' + details + '").';
             }
-        } else if (arguments.length > 1) {
-            _this.details = details;
+        } else if (arguments.length === 2) {
             _this.message = msg;
             _this.type = type;
         } else if (arguments.length === 1) {

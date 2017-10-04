@@ -27,7 +27,7 @@ function pullFile(path) {
    *
    * @param {String} path  device path to file
    *
-   * @see  https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/appium-bindings.md#pull-file
+   * @see  https://github.com/appium/appium/blob/master/docs/en/appium-bindings.md#pull-file
    * @type mobile
    * @for ios, android
    *
