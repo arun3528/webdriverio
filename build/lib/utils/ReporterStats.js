@@ -426,18 +426,22 @@ var ReporterStats = function (_RunnableStats6) {
              * replace "Ensure the done() callback is being called in this test." with more meaningful
              * message
              */
-            var message = 'Ensure the done() callback is being called in this test.';
-            if (runner.err && runner.err.message && runner.err.message.indexOf(message) > -1) {
-                var replacement = 'The execution in the test "' + runner.parent + ' ' + runner.title + '" took ' + 'too long. Try to reduce the run time or increase your timeout for ' + 'test specs (http://webdriver.io/guide/testrunner/timeouts.html).';
-                runner.err.message = runner.err.message.replace(message, replacement);
-                runner.err.stack = runner.err.stack.replace(message, replacement);
-            }
+           try {
+                var message = 'Ensure the done() callback is being called in this test.';
+                if (runner.err && runner.err.message && runner.err.message.indexOf(message) > -1) {
+                    var replacement = 'The execution in the test "' + runner.parent + ' ' + runner.title + '" took ' + 'too long. Try to reduce the run time or increase your timeout for ' + 'test specs (http://webdriver.io/guide/testrunner/timeouts.html).';
+                    runner.err.message = runner.err.message.replace(message, replacement);
+                    runner.err.stack = runner.err.stack.replace(message, replacement);
+                }
 
-            message = 'For async tests and hooks, ensure "done()" is called;';
-            if (runner.err && runner.err.message && runner.err.message.indexOf(message) > -1) {
-                var _replacement = 'Try to reduce the run time or increase your timeout for ' + 'test specs (http://webdriver.io/guide/testrunner/timeouts.html);';
-                runner.err.message = runner.err.message.replace(message, _replacement);
-                runner.err.stack = runner.err.stack.replace(message, _replacement);
+                message = 'For async tests and hooks, ensure "done()" is called;';
+                if (runner.err && runner.err.message && runner.err.message.indexOf(message) > -1) {
+                    var _replacement = 'Try to reduce the run time or increase your timeout for ' + 'test specs (http://webdriver.io/guide/testrunner/timeouts.html);';
+                    runner.err.message = runner.err.message.replace(message, _replacement);
+                    runner.err.stack = runner.err.stack.replace(message, _replacement);
+                }
+            } catch(e) {
+              console.log("FIX ", e);
             }
 
             try {
